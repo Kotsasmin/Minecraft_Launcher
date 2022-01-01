@@ -25,6 +25,8 @@ and Portably! If you have any questions, let me know in Discord
 
 **More soon!**
 
+![alt text](image.png)
+
 ## Installation
 1) Type windows + R on yor keyboard
 2) Write cmd on the windows
