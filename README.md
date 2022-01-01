@@ -50,8 +50,12 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 - [ ] Linux
 - [ ] Fast downloading
 
-## Thanks to
+## Special thanks
 * Mojang
+* Microsoft
+* mindstorm38
+* Nickolas
+* copyitright
 
 ## Contact 
 Discord- `Kotsasmin#9454`
