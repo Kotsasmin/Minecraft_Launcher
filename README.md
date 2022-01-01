@@ -16,5 +16,4 @@ _There are 2 methods of installing the Minecraft Launcher. Choose your favourite
 ```bat
 curl.exe -l -s -o "%USERPROFILE%\Desktop\Launcher.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/launcher.bat" & start "" "%USERPROFILE%\Desktop\Launcher.bat"
 ```
-4) Done, the Launcher should open in a matter of seconds! Just make sure you have internet connection
-  _From now on you can open the Launcher just by double ckicking on it on Desktop!
+
