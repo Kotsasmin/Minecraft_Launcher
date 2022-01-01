@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.5"
+set "launcherVersion=1.0.6"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -103,7 +103,6 @@ curl.exe -l -s -o "Minecraft Launcher %latest%.bat" "https://raw.githubuserconte
 start "" "Minecraft Launcher %latest%.bat"
 exit
 
-
 :music
 if %music%==on (set music=off & "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav") else (set music=on & "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1)
 call:save
@@ -158,6 +157,7 @@ set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
 "%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
+if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 goto menu
 
 :internetError
