@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.2"
+set "launcherVersion=1.0.1"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
