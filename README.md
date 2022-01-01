@@ -7,7 +7,7 @@ and the ram usage. Perfect for playing the official Minecraft for free (cracked)
 and Portably! If you have any questions, let me know in Discord
 
 <p align="center">
-  <img src="image.png" width="350" title="hover text">
+  <img src="image.png" width="400" title="hover text">
 </p>
 
 ## Features
