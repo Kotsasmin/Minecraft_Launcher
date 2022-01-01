@@ -55,6 +55,7 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 - [x] Optimize the game
 - [ ] Linux
 - [ ] Fast downloading
+- [ ] Launch MC without internet connection
 
 ## Special thanks
 * Mojang
