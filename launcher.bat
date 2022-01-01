@@ -3,9 +3,8 @@ color f
 mode con:cols=90 lines=40
 setlocal enabledelayedexpansion
 echo Loading...
-echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.6"
+set "launcherVersion=1.0.7"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -21,7 +20,7 @@ set "python=%pythonPath%\python.exe"
 if not exist "%folder%" mkdir "%folder%"
 if not exist "%folder%\bin" mkdir "%folder%\bin"
 if not exist "%folder%\data" mkdir "%folder%\data"
-::if not exist "%folder%\bin\python\python.exe" call:pythonInstall
+if not exist "%folder%\bin\python\python.exe" call:pythonInstall
 if not exist "%folder%\data\save.bat" call:intro
 Ping www.google.nl -n 1 -w 10000 >nul
 if errorlevel 1 (set internet=0) else (set internet=1)
@@ -192,7 +191,7 @@ call:fadeDownload
 %start%
 echo Since this is your first time using this Launcher,
 echo the process of installing might take a while...
-echo Approximately: 2-5 minutes
+echo Approximately: 5-7 minutes
 echo.
 echo Please be patient...
 %end%
