@@ -88,7 +88,7 @@ goto newVersionAsk
 echo Updating...
 echo Please wait...
 %end%
-curl.exe -l -s -o "Minecraft Launcher %latest%.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/Minecraft_Launcher.bat"
+curl.exe -l -s -o "Minecraft Launcher %latest%.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/launcher.bat"
 start "" "Minecraft Launcher %latest%.bat"
 exit
 
