@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.1"
+set "launcherVersion=1.0.2"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -24,6 +24,7 @@ if errorlevel 1 (set internet=0) else (set internet=1)
 if %internet%==0 if not exist "%folder%\bin.py" goto internetError
 call "%folder%\data\save.bat"
 call:downloadFiles
+if not exist "C:\python" call:pythonInstall
 ::python -V | find /v "Python" >NUL 2>NUL && (call:fullInstallation)
 wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
@@ -137,7 +138,7 @@ echo @echo off
 echo color f
 echo title All Minecraft versions
 echo echo Getting a list of all Minecraft versions...
-echo python "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
+echo "C:\python\python.exe" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
 echo echo.
 echo echo Make sure your buffer window size is larger than 700...
 echo pause
@@ -153,7 +154,7 @@ echo Initialization run...
 set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
-"%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
+"C:\python\python.exe" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
 pause
 goto menu
 
@@ -170,21 +171,9 @@ exit
 
 :fullInstallation
 call:downloadFiles
-curl.exe -s -l -o "%temp%\install.ps1" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/python.ps1"
-Powershell.exe -File %temp%\install.ps1
-py -m ensurepip --upgrade
-py get-pip.py
-pip install prompt_toolkit
+call:pythonInstall
 "%folder%\bin\bin.py" start --dry %version%
 goto :EOF
-
-cls
-echo Python is not installed on your system.
-echo You need python 3.8 or latest to run the Launcher.
-echo Now opening the download URL...
-start "" "https://www.python.org/downloads/windows/"
-pause
-exit
 
 :save
 (
@@ -201,11 +190,12 @@ call:fadeDownload
 %start%
 echo Since this is your first time using this Launcher,
 echo the process of installing might take a while...
-echo Approximately: 1-2 minutes
+echo Approximately: 2-5 minutes
 echo.
 echo Please be patient...
 %end%
 call:downloadFiles
+call:pythonInstall
 call:user
 call:version
 call:save
@@ -230,4 +220,10 @@ goto:EOF
 :fadeDownload
 if not exist "%folder%\bin\startfade.bat" curl.exe -l -s -o "%folder%\bin\startfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/startfade.bat"
 if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/endfade.bat"
+goto:EOF
+
+:pythonInstall
+if not exist "C:\python" mkdir "C:\python"
+curl.exe -s -l -o "%temp%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+"%temp%\setup.exe" /i InstallAllUsers="1" TargetDir="C:\python" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
 goto:EOF
