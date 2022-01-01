@@ -9,12 +9,19 @@ usage. Perfect for playing the official Minecraft for free (cracked) and Portabl
 
 ## Features
 ✔️- Launches all Minecraft Versions
+
 ✔️- User make changes Useranme/Version/Ram usage and more
+
 ✔️- No trial
+
 ✔️- No Java/Python needed
+
 ✔️- Portable
+
 ✔️- Open source
+
 ✔️- Updatebale
+
 **More soon!**
 
 ## Installation
