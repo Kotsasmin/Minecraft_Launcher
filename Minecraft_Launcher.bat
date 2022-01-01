@@ -5,8 +5,8 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "version=1.0"
-title %launcherName% ^| %version%
+set "launcherVersion=1.3"
+title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
 set name=Player
@@ -69,7 +69,7 @@ if internet==0 goto:EOF
 curl.exe -l -s -o "%folder%\data\latest.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/latest.bat"
 call %folder%\data\latest.bat
 timeout 0 /nobreak >nul
-if %latest%==%version% goto:EOF
+if %latest%==%launcherVersion% goto:EOF
 :newVersionAsk
 %start%
 echo There is a new version...
@@ -88,7 +88,9 @@ goto newVersionAsk
 echo Updating...
 echo Please wait...
 %end%
-goto menu
+curl.exe -l -s -o "Minecraft Launcher %latest%.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/Minecraft_Launcher.bat"
+start "" "Minecraft Launcher %latest%.bat"
+exit
 
 
 :music
@@ -225,28 +227,4 @@ goto:EOF
 :fadeDownload
 if not exist "%folder%\bin\startfade.bat" curl.exe -l -s -o "%folder%\bin\startfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/startfade.bat"
 if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/endfade.bat"
-goto:EOF
-
-:randomPick
-Set /a num=%random% %% 20 + 1
-if %num%==1 set "message=By Kotsasmin!%"
-if %num%==2 set "message=Official Music by C418!%"
-if %num%==3 set "message=Play for Free!%"
-if %num%==4 set "message=Now with fading effect!%"
-if %num%==5 set "message=All Minecraft Versions!%"
-if %num%==6 set "message=Drink some water..."
-if %num%==7 set "message=Soon with updates!%"
-if %num%==8 set "message=Made in Batch!%"
-if %num%==9 set "message=Windows 10-11 only!%"
-if %num%==10 set "message=Performance boost!%"
-if %num%==11 set "message=Cracked users!%"
-if %num%==12 set "message=menu3.wav for music!%"
-if %num%==13 set "message=The best Portable Launcher!%"
-if %num%==14 set "message=Wake up Neo!"
-if %num%==15 set "message=Minecraft!"
-if %num%==16 set "message=Minecraft!"
-if %num%==17 set "message=Minecraft!"
-if %num%==18 set "message=Minecraft!"
-if %num%==19 set "message=Minecraft!"
-if %num%==20 set "message=Minecraft!"
 goto:EOF
