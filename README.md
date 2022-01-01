@@ -1,10 +1,10 @@
-![alt text](image.png)
 
 ## About The Launcher
 This Minecraft Launcher is an Offline Cracked Portable Minecraft Launcher
-written in Batch. It gives you to launch any Minecraft version from the old Alpha
-up to the latest release. furthermore, you can change both Username and the ram
-usage. Perfect for playing the official Minecraft for free (cracked) and Portably
+written in Batch. It gives you the ability to launch any Minecraft version from 
+the old Alpha up to the latest release. furthermore, you can change both Username 
+and the ram usage. Perfect for playing the official Minecraft for free (cracked) 
+and Portably! If you have any questions, let me know in Discord
 
 ## Features
 ✔️- Launches all Minecraft Versions
