@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.3"
+set "launcherVersion=1.5"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -24,7 +24,7 @@ if errorlevel 1 (set internet=0) else (set internet=1)
 if %internet%==0 if not exist "%folder%\bin.py" goto internetError
 call "%folder%\data\save.bat"
 call:downloadFiles
-python -V | find /v "Python" >NUL 2>NUL && (call:fullInstallation)
+::python -V | find /v "Python" >NUL 2>NUL && (call:fullInstallation)
 wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
 del "%folder%\data\gpu.txt"
@@ -32,7 +32,6 @@ if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 
 :menu
 %start%
-call:randomPick
 echo %launcherName%
 echo.
 echo.
@@ -42,7 +41,7 @@ echo 2) Change player name: %name%
 echo 3) Change Minecraft version: %version%
 echo 4) Change Ram usage in GB: %ram%
 echo 5) Show all Minecraft versions
-echo 6) Reinstall missing files
+echo 6) Install Python/Java
 echo 7) Music: %music%
 echo 8) Check for updates
 echo 9) Exit
@@ -53,10 +52,18 @@ if %errorlevel%==2 call:user
 if %errorlevel%==3 call:version
 if %errorlevel%==4 call:ram
 if %errorlevel%==5 call:allversions
-if %errorlevel%==6 call:fullInstallation
+if %errorlevel%==6 call:installJavaPython
 if %errorlevel%==7 call:music
 if %errorlevel%==8 call:checkUpdates
 if %errorlevel%==9 goto exit
+goto menu
+
+:installJavaPython
+%start%
+echo Installing Java/Python...
+%end%
+call:fullInstallation
+timeout 0 /nobreak >nul
 goto menu
 
 :checkUpdates
@@ -162,10 +169,6 @@ pause
 exit
 
 :fullInstallation
-%start%
-echo Installing Python/Java/Pip/Tools...
-echo Please wait...
-%end%
 call:downloadFiles
 "%folder%\bin\bin.py" start --dry %version%
 curl.exe -s -l -o "%temp%\install.ps1" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/python.ps1"
@@ -207,7 +210,7 @@ call:user
 call:version
 call:save
 %start%
-echo Entering Launcher...
+echo Loading...
 %end%
 goto:EOF
 
