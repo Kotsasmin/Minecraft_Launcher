@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.5"
+set "launcherVersion=1.0.1"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -170,12 +170,12 @@ exit
 
 :fullInstallation
 call:downloadFiles
-"%folder%\bin\bin.py" start --dry %version%
 curl.exe -s -l -o "%temp%\install.ps1" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/python.ps1"
 Powershell.exe -File %temp%\install.ps1
 py -m ensurepip --upgrade
 py get-pip.py
 pip install prompt_toolkit
+"%folder%\bin\bin.py" start --dry %version%
 goto :EOF
 
 cls
