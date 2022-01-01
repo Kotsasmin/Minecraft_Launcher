@@ -6,6 +6,10 @@ the old Alpha up to the latest release. furthermore, you can change both Usernam
 and the ram usage. Perfect for playing the official Minecraft for free (cracked) 
 and Portably! If you have any questions, let me know in Discord
 
+<p align="center">
+  <img src="image.png" width="350" title="hover text">
+</p>
+
 ## Features
 ✔️- Launches all Minecraft Versions
 
@@ -24,8 +28,6 @@ and Portably! If you have any questions, let me know in Discord
 ✔️- Now with fading effect!
 
 **More soon!**
-
-![alt text](image.png)
 
 ## Installation
 1) Type windows + R on yor keyboard
