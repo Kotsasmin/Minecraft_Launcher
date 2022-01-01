@@ -1,1 +1,1 @@
-set latest=1.0.6
+set latest=1.0.7
