@@ -64,4 +64,4 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 * copyitright
 
 ## Contact 
-Discord- `Kotsasmin#9454`
+Discord - `Kotsasmin#9454`
