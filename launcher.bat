@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.4"
+set "launcherVersion=1.0.5"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -15,9 +15,13 @@ set "folder=launcher_data"
 set "music=on"
 set "start=call %folder%\bin\startfade.bat"
 set "end=call %folder%\bin\endfade.bat"
+set "localPath=%~dp0"
+set "pythonPath=%localPath%\%folder%\bin\python"
+set "python=%pythonPath%\python.exe"
 if not exist "%folder%" mkdir "%folder%"
 if not exist "%folder%\bin" mkdir "%folder%\bin"
 if not exist "%folder%\data" mkdir "%folder%\data"
+::if not exist "%folder%\bin\python\python.exe" call:pythonInstall
 if not exist "%folder%\data\save.bat" call:intro
 Ping www.google.nl -n 1 -w 10000 >nul
 if errorlevel 1 (set internet=0) else (set internet=1)
@@ -137,7 +141,7 @@ echo @echo off
 echo color f
 echo title All Minecraft versions
 echo echo Getting a list of all Minecraft versions...
-echo "C:\python\python.exe" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
+echo "%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
 echo echo.
 echo echo Make sure your buffer window size is larger than 700...
 echo pause
@@ -153,7 +157,7 @@ echo Initialization run...
 set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
-"C:\python\python.exe" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
+"%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
 pause
 goto menu
 
@@ -222,7 +226,7 @@ if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.
 goto:EOF
 
 :pythonInstall
-if not exist "C:\python" mkdir "C:\python"
-curl.exe -s -l -o "%temp%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
-"%temp%\setup.exe" /i InstallAllUsers="1" TargetDir="C:\python" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
+if not exist "%folder%\bin\python" mkdir "%folder%\bin\python"
+curl.exe -s -l -o "%folder%\bin\python\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+"%folder%\bin\python\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
 goto:EOF
