@@ -6,10 +6,10 @@ usage. More info soon...
 
 ![alt text](image.png)
 
-##Installation
+## Installation
 _There are 2 ways of installing the Minecraft Launcher. Choose your favourite one:
 
-#First way:
+# First way:
 1) Type windows + R on yor keyboard
 2) Write cmd on the windows
 3) Type this command in the terminal and press Enter:
