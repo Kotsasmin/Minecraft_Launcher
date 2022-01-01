@@ -21,6 +21,8 @@ usage. Perfect for playing the official Minecraft for free (cracked) and Portabl
 
 ✔️- Updatebale
 
+✔️- Now with fading effect!
+
 **More soon!**
 
 ## Installation
