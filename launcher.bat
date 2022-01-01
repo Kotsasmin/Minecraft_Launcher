@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 echo Loading...
 echo Please wait...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.3"
+set "launcherVersion=1.0.4"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -25,7 +25,6 @@ if %internet%==0 if not exist "%folder%\bin.py" goto internetError
 call "%folder%\data\save.bat"
 call:downloadFiles
 if not exist "C:\python" call:pythonInstall
-::python -V | find /v "Python" >NUL 2>NUL && (call:fullInstallation)
 wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
 del "%folder%\data\gpu.txt"
