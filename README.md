@@ -1,7 +1,7 @@
 ![alt text](image.png)
 
 
-# About The Launcher
+## About The Launcher
 This Minecraft Launcher is an Offline Cracked Portable Minecraft Launcher
 written in Batch. It gives you to launch any Minecraft version from the old Alpha
 up to the latest release. furthermore, you can change both Username and the ram
@@ -21,3 +21,15 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 7) Type in, whith which Minecraft version you want to play with
   _You can always change these settings in the future...
 8) Done! You are inside the Minecraft Launcher!
+
+## Requirements
+- [x] Windows 7/8/8.1/10/11
+- [x] 1 GB RAM
+- [x] 2 GB Storage
+
+## To do list
+- [x] Make it updatebale
+- [x] Make it Launch all Minecraft versions
+- [x] Auto install Java/Python
+- [ ] Linux
+- [ ] Fast downloading
