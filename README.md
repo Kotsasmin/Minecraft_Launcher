@@ -49,7 +49,7 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 8) Done! You are inside the Minecraft Launcher!
 
 ## Requirements
-✔️ Windows 7/8/8.1/10/11
+✔️ Windows 8.1/10/11
 ✔️ 1 GB RAM
 ✔️ 2 GB Storage
 ✔️ curl.exe installed on system32
