@@ -1,3 +1,8 @@
+## WARNING!!!
+The Launcher is still under development... There are
+a lot of bugs! Use it at your own risk!
+
+
 
 ## About The Launcher
 This Minecraft Launcher is an Offline Cracked Portable Minecraft Launcher
