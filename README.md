@@ -34,7 +34,7 @@ and Portably! If you have any questions, let me know in Discord
 2) Write cmd on the windows
 3) Type this command in the terminal and press Enter:
 ```bat
-curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/launcher.bat" & start "" "%USERPROFILE%\Desktop\Launcher.bat"
+curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/launcher.bat" & start "" "%USERPROFILE%\Desktop\Minecraft Launcher.bat"
 ```
 4) Double click on the `Minecraft Launcher.bat` file which is located on Desktop and wait
 5) Allow the Python installer to make changes to your computer
