@@ -20,7 +20,6 @@ set "python=%pythonPath%\python.exe"
 if not exist "%folder%" mkdir "%folder%"
 if not exist "%folder%\bin" mkdir "%folder%\bin"
 if not exist "%folder%\data" mkdir "%folder%\data"
-if not exist "%folder%\bin\python\python.exe" call:pythonInstall
 if not exist "%folder%\data\save.bat" call:intro
 Ping www.google.nl -n 1 -w 10000 >nul
 if errorlevel 1 (set internet=0) else (set internet=1)
