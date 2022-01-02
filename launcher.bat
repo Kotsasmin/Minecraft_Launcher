@@ -27,7 +27,7 @@ if errorlevel 1 (set internet=0) else (set internet=1)
 if %internet%==0 if not exist "%folder%\bin.py" goto internetError
 call "%folder%\data\save.bat"
 call:downloadFiles
-if not exist "C:\python" call:pythonInstall
+if not exist "%python%" call:pythonInstall
 wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
 del "%folder%\data\gpu.txt"
@@ -224,7 +224,7 @@ if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.
 goto:EOF
 
 :pythonInstall
-if not exist "%folder%\bin\python" mkdir "%folder%\bin\python"
-curl.exe -s -l -o "%folder%\bin\python\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
-"%folder%\bin\python\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
+if not exist "%pythonPath%" mkdir "%pythonPath%"
+curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+"%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
 goto:EOF
