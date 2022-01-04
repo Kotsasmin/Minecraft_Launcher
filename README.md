@@ -1,6 +1,7 @@
 ## WARNING!!!
 The Launcher is still under development... There are
-a lot of bugs! Use it at your own risk!
+a lot of bugs! Use it at your own risk! Make sure you are
+not using Drive for Desktop backup...
 
 
 
