@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.8"
+set "launcherVersion=0.0.0.1"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -20,10 +20,11 @@ set "python=%pythonPath%\python.exe"
 if not exist "%folder%" mkdir "%folder%"
 if not exist "%folder%\bin" mkdir "%folder%\bin"
 if not exist "%folder%\data" mkdir "%folder%\data"
-if not exist "%folder%\data\save.bat" call:intro
-Ping www.google.nl -n 1 -w 10000 >nul
-if errorlevel 1 (set internet=0) else (set internet=1)
-if %internet%==0 if not exist "%folder%\bin.py" goto internetError
+if not exist "%folder%\data\save.bat" (set firstTime=true) else (set firstTime=false)
+Ping www.google.nl -n 1 -w 100000 >nul
+if %errorlevel%==1 (set internet=false) else (set internet=true)
+if %internet%==false call:checkOffline
+if %firstTime%==true call:intro
 call "%folder%\data\save.bat"
 call:downloadFiles
 if not exist "%python%" call:pythonInstall
@@ -34,6 +35,7 @@ if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 
 
 :menu
+CLS
 %start%
 echo %launcherName%
 echo.
@@ -191,7 +193,7 @@ call:fadeDownload
 %start%
 echo Since this is your first time using this Launcher,
 echo the process of installing might take a while...
-echo Approximately: 5-7 minutes
+echo Approximately: 2-3 minutes
 echo.
 echo Please be patient...
 %end%
@@ -211,7 +213,7 @@ goto:EOF
 exit
 
 :downloadFiles
-curl.exe -l -s -o "%folder%\bin\bin.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/bin.py"
+if not exist "%folder%\bin\bin.py" curl.exe -l -s -o "%folder%\bin\bin.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/bin.py"
 if not exist "%folder%\bin\startfade.bat" curl.exe -l -s -o "%folder%\bin\startfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/startfade.bat"
 if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/endfade.bat"
 if not exist "%folder%\bin\sound.exe" curl.exe -l -s -o "%folder%\bin\sound.exe" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/SOUND.EXE"
@@ -225,6 +227,68 @@ goto:EOF
 
 :pythonInstall
 if not exist "%pythonPath%" mkdir "%pythonPath%"
-curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+if exist "%python%" goto:EOF
 "%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
-goto:EOF
+timeout 0 /nobreak >nul
+if exist "%python%" goto:EOF
+if not exist "%userprofile%\Desktop" (set "errorMessage=noDesktop") else (set errorMessage=noPython)
+if %errorMessage%==noDesktop goto noDesktop
+
+:noPython
+%start%
+echo Something went wrong during the installation
+echo of python... Try the followings:
+echo.
+echo 1) Restart your computer
+echo 2) Change the location of the Launcher
+echo 3) Check your Internet connection
+%stop%
+pause>nul
+exit
+
+:noDesktop
+%start%
+echo Something went wrong during the installation
+echo of python... Try the followings:
+echo.
+echo 1) Change the location of the Launcher
+echo 2) Disable OneDrive
+echo 3) Check your Internet connection
+%stop%
+pause>nul
+exit
+
+:checkOffline
+Ping www.google.nl -n 1 -w 100000 >nul
+if %errorlevel%==1 (set internet=false) else (set internet=true)
+if %internet%==true goto:EOF
+if %firstTime%==true goto couldNotDownload
+set readyOffline=true
+if not exist "%folder%\bin\bin.py" set readyOffline=false
+if not exist "%folder%\bin\startfade.bat" set readyOffline=false
+if not exist "%folder%\bin\endfade.bat" set readyOffline=false
+if not exist "%folder%\bin\sound.exe" set readyOffline=false
+if not exist "%folder%\bin\music.wav" set readyOffline=false
+if not exist "%python%" set readyOffline=false
+if %readyOffline%==true goto offlineMode
+
+:couldNotDownload
+cls
+echo Could not download some very important
+echo files due to no Internet connection...
+echo.
+echo Please check your Internet connection and
+echo try again later...
+echo.
+pause
+exit
+
+:offlineMode
+cls
+echo There is no Internet connection...
+echo However, you can still play the installed
+echo versions of Minecraft in Singleplayer mode...
+echo.
+pause
+goto:eof
