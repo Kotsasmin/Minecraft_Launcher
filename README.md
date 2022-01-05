@@ -46,7 +46,7 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 5) Allow the Python installer to make changes to your computer
 6) Wait a few seconds and insert your desired Minecraft Username
 7) Type in, whith which Minecraft version you want to play with
-  _You can always change these settings in the future...
+  _You can always change these settings in the future..._
 8) Done! You are inside the Minecraft Launcher!
 
 ## Requirements
