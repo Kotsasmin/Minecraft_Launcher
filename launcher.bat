@@ -105,8 +105,12 @@ start "" "Minecraft Launcher %latest%.bat"
 exit
 
 :music
+%start%
+echo Changing and saving settings...
+%stop%
 if %music%==on (set music=off & "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav") else (set music=on & "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1)
 call:save
+timeout 0 /nobreak >nul
 goto:EOF
 
 :user
