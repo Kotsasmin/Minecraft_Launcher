@@ -1,10 +1,10 @@
 @echo off
 color f
-mode con:cols=90 lines=40
+mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=1.0.7"
+set "launcherVersion=1.0.8"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -31,6 +31,7 @@ wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
 del "%folder%\data\gpu.txt"
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
+
 
 :menu
 %start%
