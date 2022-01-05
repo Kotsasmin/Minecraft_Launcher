@@ -51,8 +51,11 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 
 ## Requirements
 ✔️ Windows 8.1/10/11
+
 ✔️ 1 GB RAM
+
 ✔️ 2 GB Storage
+
 ✔️ curl.exe installed on system32
 
 ## To do list
