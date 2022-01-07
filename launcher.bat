@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.1"
+set "launcherVersion=0.0.0.2"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -12,6 +12,8 @@ set name=Player
 set forge=false
 set "folder=launcher_data"
 set "music=on"
+set "per=off"
+set "showVer=on"
 set "start=call %folder%\bin\startfade.bat"
 set "end=call %folder%\bin\endfade.bat"
 set "localPath=%~dp0"
@@ -35,33 +37,53 @@ if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 
 
 :menu
-CLS
 %start%
 echo %launcherName%
 echo.
-echo.
-echo.
-echo 1) Launch Minecraft
-echo 2) Change player name: %name%
-echo 3) Change Minecraft version: %version%
-echo 4) Change Ram usage in GB: %ram%
-echo 5) Show all Minecraft versions
-echo 6) Install Python/Java
-echo 7) Music: %music%
-echo 8) Check for updates
-echo 9) Exit
+echo 1) Launch Minecraft %version%
+echo 2) Launcher Settings
+echo 3) List Minecraft versions
+echo 4) Reinstall missing files
+echo 5) Check for updates
+echo 6) Exit
 %end%
-choice /c 12345678 /n
-if %errorlevel%==1 goto launch
-if %errorlevel%==2 call:user
-if %errorlevel%==3 call:version
-if %errorlevel%==4 call:ram
-if %errorlevel%==5 call:allversions
-if %errorlevel%==6 call:installJavaPython
-if %errorlevel%==7 call:music
-if %errorlevel%==8 call:checkUpdates
-if %errorlevel%==9 goto exit
+choice /c 123456 /n
+if %errorlevel%==1 call:launch
+if %errorlevel%==2 call:settings
+if %errorlevel%==3 call:allVersions
+if %errorlevel%==4 call:installJavaPython
+if %errorlevel%==5 call:checkUpdates
+if %errorlevel%==6 exit
 goto menu
+
+:settings
+%start%
+echo Launcher settings:
+echo.
+echo 1) Player name: %name%
+echo 2) Game version: %version%
+echo 3) Ram usage: %ram%
+echo 4) Performance boost on launch: %per%
+echo 5) List Minecraft Versions on the changing menu: %showVer%
+echo 6) Menu
+%end%
+choice /c 123456 /n
+if %errorlevel%==1 call:user
+if %errorlevel%==2 call:version
+if %errorlevel%==3 call:ram
+if %errorlevel%==4 call:per
+if %errorlevel%==5 call:showChange
+if %errorlevel%==6 goto menu
+goto settings
+
+:showChange
+%start%
+echo Changing and saving settings...
+%end%
+if %showVer%==on (set showVer=off) else (set showVer=on)
+call:save
+timeout 0 /nobreak >nul
+goto:EOF
 
 :installJavaPython
 %start%
@@ -77,11 +99,12 @@ echo Checking for updates...
 %end%
 Ping www.google.nl -n 1 -w 100000 >nul
 if errorlevel 1 (set internet=0) else (set internet=1)
-if internet==0 goto:EOF
+if %internet%==0 call:checkInternet
+if %internet%==0 goto:EOF
 curl.exe -l -s -o "%folder%\data\latest.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/latest.bat"
 call %folder%\data\latest.bat
 timeout 0 /nobreak >nul
-if %latest%==%launcherVersion% goto:EOF
+if %latest%==%launcherVersion% goto noVersionAsk
 :newVersionAsk
 %start%
 echo There is a new version...
@@ -95,6 +118,14 @@ if %errorlevel%==1 goto update
 if %errorlevel%==2 goto:EOF
 goto newVersionAsk
 
+:noVersionAsk
+%start%
+echo You are using the latest version of the Launcher.
+echo Try again later...
+%end%
+pause>nul
+goto menu
+
 :update
 %start%
 echo Updating...
@@ -107,8 +138,17 @@ exit
 :music
 %start%
 echo Changing and saving settings...
-%stop%
+%end%
 if %music%==on (set music=off & "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav") else (set music=on & "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1)
+call:save
+timeout 0 /nobreak >nul
+goto:EOF
+
+:per
+%start%
+echo Changing and saving settings...
+%end%
+if %per%==on (set per=off) else (set per=on)
 call:save
 timeout 0 /nobreak >nul
 goto:EOF
@@ -137,9 +177,7 @@ set /p "ram="
 call:save
 goto:EOF
 
-Ram usage in GB (without GB)
-
-:allversions
+:allVersions
 (
 echo @echo off
 echo color f
@@ -161,8 +199,10 @@ echo Initialization run...
 set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
+if %per%==on taskkill /f /im explorer.exe
 "%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
+if %per%==on start explorer.exe
 goto menu
 
 :internetError
@@ -179,7 +219,7 @@ exit
 :fullInstallation
 call:downloadFiles
 call:pythonInstall
-"%folder%\bin\bin.py" start --dry %version%
+"%python%" "%folder%\bin\bin.py" start --dry %version%
 goto :EOF
 
 :save
@@ -189,6 +229,8 @@ echo set version=%version%
 echo set name=%name%
 echo set forge=%forge%
 echo set music=%music%
+echo set per=%per%
+echo set showVer=%showVer%
 )>"%folder%\data\save.bat"
 goto:EOF
 
@@ -247,7 +289,7 @@ echo.
 echo 1) Restart your computer
 echo 2) Change the location of the Launcher
 echo 3) Check your Internet connection
-%stop%
+%end%
 pause>nul
 exit
 
@@ -259,7 +301,7 @@ echo.
 echo 1) Change the location of the Launcher
 echo 2) Disable OneDrive
 echo 3) Check your Internet connection
-%stop%
+%end%
 pause>nul
 exit
 
@@ -296,3 +338,11 @@ echo versions of Minecraft in Singleplayer mode...
 echo.
 pause
 goto:eof
+
+:checkInternet
+%start%
+echo Please check your internet connection and
+echo try again later...
+%end%
+pause>nul
+goto:EOF
