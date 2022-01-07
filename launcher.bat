@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.2"
+set "launcherVersion=0.0.0.1"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -162,6 +162,7 @@ call:save
 goto:EOF
 
 :version
+if %showVer%==on call:allVersions
 %start%
 echo Minecraft version:
 %end%
@@ -190,7 +191,7 @@ echo pause
 echo exit
 )>"%folder%\bin\versions.bat"
 start "" "%folder%\bin\versions.bat"
-goto menu
+goto:EOF
 
 :launch
 %start%
