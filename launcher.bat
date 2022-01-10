@@ -347,5 +347,3 @@ echo try again later...
 %end%
 pause>nul
 goto:EOF
-
-::Kotsasmin
