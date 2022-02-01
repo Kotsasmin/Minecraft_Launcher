@@ -347,3 +347,6 @@ echo try again later...
 %end%
 pause>nul
 goto:EOF
+
+
+:: Made by Kotsasmin
