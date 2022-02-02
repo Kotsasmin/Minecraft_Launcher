@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.2"
+set "launcherVersion=0.0.0.3"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -240,7 +240,7 @@ call:fadeDownload
 %start%
 echo Since this is your first time using this Launcher,
 echo the process of installing might take a while...
-echo Approximately: 2-3 minutes
+echo Approximately: 4-5 minutes
 echo.
 echo Please be patient...
 %end%
@@ -277,6 +277,7 @@ if not exist "%pythonPath%" mkdir "%pythonPath%"
 if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
 if exist "%python%" goto:EOF
 "%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
+if exist "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv" del "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv"
 timeout 0 /nobreak >nul
 if exist "%python%" goto:EOF
 if not exist "%userprofile%\Desktop" (set "errorMessage=noDesktop") else (set errorMessage=noPython)
