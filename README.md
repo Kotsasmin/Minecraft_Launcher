@@ -25,8 +25,6 @@ and Portably! If you have any questions, let me know in Discord
 
 ✔️- No Java/Python needed
 
-✔️- Portable
-
 ✔️- Open source
 
 ✔️- Updatebale
@@ -66,6 +64,10 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 - [ ] Linux
 - [ ] Fast downloading
 - [ ] Launch MC without internet connection
+- [ ] Improve menu
+- [ ] Fix some bugs
+- [ ] Make it one click install
+- [ ] Add quick launch shortcuts
 
 ## Special thanks
 * Mojang
