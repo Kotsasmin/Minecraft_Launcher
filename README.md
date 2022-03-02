@@ -35,7 +35,7 @@ and Portably! If you have any questions, let me know in Discord
 
 ## Installation
 1) Type windows + R on yor keyboard
-2) Write cmd on the windows
+2) Type in the box `cmd` and press Enter
 3) Type this command in the terminal and press Enter:
 ```bat
 curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/launcher.bat"
