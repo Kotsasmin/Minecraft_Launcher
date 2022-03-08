@@ -1,7 +1,8 @@
 ## WARNING!!!
 The Launcher is still under development... There are
 a lot of bugs! Use it at your own risk! Make sure you are
-not using OneDrive for Desktop backup...
+not using OneDrive for Desktop backup... I recommend using after
+the version 0.0.1.0
 
 
 
