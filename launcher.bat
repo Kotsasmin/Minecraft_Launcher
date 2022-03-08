@@ -274,7 +274,7 @@ goto:EOF
 
 :pythonInstall
 if not exist "%pythonPath%" mkdir "%pythonPath%"
-if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe
+if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.2/python-3.10.1-amd64.exe
 if exist "%python%" goto:EOF
 "%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
 if exist "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv" del "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv"
