@@ -1,1 +1,1 @@
-set "pyVersion=3.10.2"
+set "pyVersion=3.10.5"
