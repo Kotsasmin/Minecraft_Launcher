@@ -76,6 +76,7 @@ curl.exe -l -s -o "%USERPROFILE%\Desktop\Minecraft Launcher.bat" "https://raw.gi
 * mindstorm38
 * Nickolas
 * copyitright
+* Benny Boy
 
 ## Contact 
 Discord - `Kotsasmin#9454`
