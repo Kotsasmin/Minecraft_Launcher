@@ -13,7 +13,8 @@ set forge=false
 set "folder=launcher_data"
 set "music=on"
 set "per=off"
-set "showVer=on"
+set "showVer=off"
+set "uuid=0"
 set "start=call %folder%\bin\startfade.bat"
 set "end=call %folder%\bin\endfade.bat"
 set "localPath=%~dp0"
@@ -34,6 +35,7 @@ wmic path win32_VideoController get name >"%folder%\data\gpu.txt"
 more +1 "%folder%\data\gpu.txt" > "%folder%\data\gpu.data"
 del "%folder%\data\gpu.txt"
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
+IF /I "%1"=="-" exit
 
 
 :menu
@@ -42,39 +44,74 @@ echo %launcherName%
 echo.
 echo 1) Launch Minecraft %version%
 echo 2) Launcher Settings
-echo 3) List Minecraft versions
-echo 4) Reinstall missing files
-echo 5) Check for updates
-echo 6) Exit
+echo 3) Check for updates
+echo 4) Exit
 %end%
-choice /c 123456 /n
+choice /c 1234 /n
 if %errorlevel%==1 call:launch
 if %errorlevel%==2 call:settings
-if %errorlevel%==3 call:allVersions
-if %errorlevel%==4 call:installJavaPython
-if %errorlevel%==5 call:checkUpdates
-if %errorlevel%==6 exit
+if %errorlevel%==3 call:checkUpdates
+if %errorlevel%==4 goto exit1
 goto menu
 
 :settings
 %start%
 echo Launcher settings:
 echo.
-echo 1) Player name: %name%
-echo 2) Game version: %version%
-echo 3) Ram usage: %ram%
-echo 4) Performance boost on launch: %per%
-echo 5) List Minecraft Versions on the changing menu: %showVer%
-echo 6) Menu
+echo 1) Change Player Name: %name%
+echo 2) Change Player Skin: %uuid%
+echo 3) Game version: %version%
+echo 4) Ram usage: %ram%
+echo 5) Performance boost on launch: %per%
+echo 6) List Minecraft Versions
+echo 7) Menu
 %end%
-choice /c 123456 /n
+choice /c 1234567 /n
 if %errorlevel%==1 call:user
-if %errorlevel%==2 call:version
-if %errorlevel%==3 call:ram
-if %errorlevel%==4 call:per
-if %errorlevel%==5 call:showChange
-if %errorlevel%==6 goto menu
+if %errorlevel%==2 call:uuid
+if %errorlevel%==3 call:version
+if %errorlevel%==4 call:ram
+if %errorlevel%==5 call:per
+if %errorlevel%==6 call:allVersions
+if %errorlevel%==7 goto menu
 goto settings
+
+:uuid
+%start%
+echo Player Skin UUID: %uuid%
+echo.
+echo 1) Change UUID
+echo 2) Find a Skin's UUID
+echo 3) Disable skins
+echo 4) Back
+%end%
+choice /c 1234 /n
+if %errorlevel%==1 call:newUuid
+if %errorlevel%==2 call:webUuid
+if %errorlevel%==3 call:noUuid
+if %errorlevel%==4 goto settings
+goto uuid
+
+:newUuid
+%start%
+echo New uuid:
+%end%
+set /p "uuid="
+call:save
+goto:EOF
+
+:webUuid
+%start%
+start https://mcuuid.net
+echo Search a Minecraft username on the website and copy the "Trimmed UUID"
+echo Press any key and paste the UUID you copied.
+%end%
+pause>nul
+goto newUuid
+
+:noUuid
+set uuid=0
+goto uuid
 
 :showChange
 %start%
@@ -201,7 +238,7 @@ set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
 if %per%==on taskkill /f /im explorer.exe
-"%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i 0
+"%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i %uuid%
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 if %per%==on start explorer.exe
 goto menu
@@ -232,6 +269,7 @@ echo set forge=%forge%
 echo set music=%music%
 echo set per=%per%
 echo set showVer=%showVer%
+echo set uuid=%uuid%
 )>"%folder%\data\save.bat"
 goto:EOF
 
@@ -254,7 +292,7 @@ echo Loading...
 %end%
 goto:EOF
 
-:exit
+:exit1
 %start%
 %end%
 exit
@@ -274,11 +312,11 @@ goto:EOF
 
 :pythonInstall
 if not exist "%pythonPath%" mkdir "%pythonPath%"
-if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe
+curl.exe -s -l -o "%pythonPath%\version.bat" https://raw.githubusercontent.com/Kotsasmin/Minecraft_Launcher/main/python.bat
+call "%pythonPath%\version.bat"
+if not exist "%pythonPath%\setup.exe" curl.exe -s -l -o "%pythonPath%\setup.exe" https://www.python.org/ftp/python/%pyVersion%/python-%pyVersion%-amd64.exe
 if exist "%python%" goto:EOF
-"%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /passive /wait
-if exist "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv" del "%USERPROFILE%\Desktop\launcher_data\bin\python\Lib\venv"
-timeout 0 /nobreak >nul
+"%pythonPath%\setup.exe" /i InstallAllUsers="1" TargetDir="%pythonPath%" PrependPath="1" Include_doc="1" Include_debug="1" Include_dev="1" Include_exe="1" Include_launcher="1" InstallLauncherAllUsers="1" Include_lib="1" Include_pip="1" Include_symbols="1" Include_tcltk="1" Include_test="1" Include_tools="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" Include_launcher="1" /wait /passive
 if exist "%python%" goto:EOF
 if not exist "%userprofile%\Desktop" (set "errorMessage=noDesktop") else (set errorMessage=noPython)
 if %errorMessage%==noDesktop goto noDesktop
