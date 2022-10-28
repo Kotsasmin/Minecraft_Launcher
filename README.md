@@ -32,6 +32,8 @@ and Portably! If you have any questions, let me know in Discord
 
 ✔️- Now with fading effect!
 
+✔️- Built-in feedback
+
 **More soon!**
 
 ## Installation
