@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.4"
+set "launcherVersion=0.0.0.5"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -51,7 +51,7 @@ echo 6) Exit
 %end%
 choice /c 123456 /n
 if %errorlevel%==1 call:launch
-if %errorlevel%==2 call:accountSettings
+if %errorlevel%==2 call:userSettings
 if %errorlevel%==3 call:settings
 if %errorlevel%==4 call:checkUpdates
 if %errorlevel%==5 call:sendFeedback
@@ -75,7 +75,7 @@ echo Sending feedback...
 curl -k -F "payload_json={\"content\": \"`%USERNAME%` just gave a feedback\nStars: `%stars%` out of 5\nReport: ```%message%```\"}" https://discord.com/api/webhooks/1035608354074140722/ZUzm6Y83oejMfVl5xMcL7on3SkpJkK3PQzkdeqzXKIAhos9LB89ogwqy8BKrXw4juJCn >nul
 goto:EOF
 
-:accountSettings
+:userSettings
 %start%
 echo Account settings:
 echo.
@@ -89,9 +89,9 @@ choice /c 12345 /n
 if %errorlevel%==1 call:version
 if %errorlevel%==2 call:user
 if %errorlevel%==3 call:uuid
-if %errorlevel%==4 goto accountSettings
+if %errorlevel%==4 goto userSettings
 if %errorlevel%==5 goto menu
-goto accountSettings
+goto userSettings
 
 
 :settings
@@ -447,8 +447,6 @@ goto:EOF
 :wrongOS
 cls
 echo This operating system isn't supported...
-echo.
-echo.
 echo.
 pause
 exit
