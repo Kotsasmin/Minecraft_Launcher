@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.6"
+set "launcherVersion=0.0.0.4"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -20,6 +20,7 @@ set "end=call %folder%\bin\endfade.bat"
 set "localPath=%~dp0"
 set "pythonPath=%localPath%\%folder%\bin\python"
 set "python=%pythonPath%\python.exe"
+call:checkOS
 if not exist "%folder%" mkdir "%folder%"
 if not exist "%folder%\bin" mkdir "%folder%\bin"
 if not exist "%folder%\data" mkdir "%folder%\data"
@@ -37,43 +38,76 @@ del "%folder%\data\gpu.txt"
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 IF /I "%1"=="-" exit
 
-
 :menu
 %start%
 echo %launcherName%
 echo.
 echo 1) Launch Minecraft %version%
-echo 2) Launcher Settings
-echo 3) Check for updates
-echo 4) Exit
+echo 2) Account settings
+echo 3) Launcher Settings
+echo 4) Check for updates
+echo 5) Send feedback
+echo 6) Exit
 %end%
-choice /c 1234 /n
+choice /c 123456 /n
 if %errorlevel%==1 call:launch
-if %errorlevel%==2 call:settings
-if %errorlevel%==3 call:checkUpdates
-if %errorlevel%==4 goto exit1
+if %errorlevel%==2 call:accountSettings
+if %errorlevel%==3 call:settings
+if %errorlevel%==4 call:checkUpdates
+if %errorlevel%==5 call:sendFeedback
+if %errorlevel%==6 goto exit1
 goto menu
+
+:sendFeedback
+%start%
+echo Please rate the Launcher out of 5 (ex 3): 
+%end%
+set /p "stars="
+%start%
+echo Give as please a short description of what we
+echo should implement/fix in our Launcher
+echo (Only english, no special characters)
+%end%
+set /p "message="
+%start%
+echo Sending feedback...
+%end%
+curl -k -F "payload_json={\"content\": \"`%USERNAME%` just gave a feedback\nStars: `%stars%` out of 5\nReport: ```%message%```\"}" https://discord.com/api/webhooks/1035608354074140722/ZUzm6Y83oejMfVl5xMcL7on3SkpJkK3PQzkdeqzXKIAhos9LB89ogwqy8BKrXw4juJCn >nul
+goto:EOF
+
+:accountSettings
+%start%
+echo Account settings:
+echo.
+echo 1) Game version: %version%
+echo 2) Change Player Name: %name%
+echo 3) Change Player Skin: %uuid%
+echo 4) Soon...
+echo 5) Exit
+%end%
+choice /c 12345 /n
+if %errorlevel%==1 call:version
+if %errorlevel%==2 call:user
+if %errorlevel%==3 call:uuid
+if %errorlevel%==4 goto accountSettings
+if %errorlevel%==5 goto menu
+goto accountSettings
+
 
 :settings
 %start%
 echo Launcher settings:
 echo.
-echo 1) Change Player Name: %name%
-echo 2) Change Player Skin: %uuid%
-echo 3) Game version: %version%
-echo 4) Ram usage: %ram%
-echo 5) Performance boost on launch: %per%
-echo 6) List Minecraft Versions
-echo 7) Menu
+echo 1) Ram usage: %ram% GB
+echo 2) Performance boost on launch: %per%
+echo 3) List Minecraft Versions
+echo 4) Menu
 %end%
-choice /c 1234567 /n
-if %errorlevel%==1 call:user
-if %errorlevel%==2 call:uuid
-if %errorlevel%==3 call:version
-if %errorlevel%==4 call:ram
-if %errorlevel%==5 call:per
-if %errorlevel%==6 call:allVersions
-if %errorlevel%==7 goto menu
+choice /c 1234 /n
+if %errorlevel%==1 call:ram
+if %errorlevel%==2 call:per
+if %errorlevel%==3 call:allVersions
+if %errorlevel%==4 goto menu
 goto settings
 
 :uuid
@@ -144,7 +178,7 @@ timeout 0 /nobreak >nul
 if %latest%==%launcherVersion% goto noVersionAsk
 :newVersionAsk
 %start%
-echo There is a new version...
+echo There is a new version of the Launcher available.
 echo Do you want to update now?
 echo.
 echo 1) Yes
@@ -352,6 +386,9 @@ if %internet%==true goto:EOF
 if %firstTime%==true goto couldNotDownload
 set readyOffline=true
 if not exist "%appdata%\Python\Python310\Scripts\portablemc.exe" set readyOffline=false
+if not exist "%appdata%\Python\Python310\site-packages\portablemc\__init__.py" set readyOffline=false
+if not exist "%appdata%\Python\Python310\site-packages\portablemc\cli.py" set readyOffline=false
+if not exist "%appdata%\Python\Python310\site-packages\portablemc\__main__.py" set readyOffline=false
 if not exist "%folder%\bin\startfade.bat" set readyOffline=false
 if not exist "%folder%\bin\endfade.bat" set readyOffline=false
 if not exist "%folder%\bin\sound.exe" set readyOffline=false
@@ -395,4 +432,25 @@ curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\__init__.p
 curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\__main__.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/site-packages/portablemc/__main__.py"
 curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\cli.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/site-packages/portablemc/cli.py"
 goto:EOF
+
+:checkOS
+@echo off
+setlocal
+for /f "tokens=4-5 delims=. " %%i in ('ver') do set OSVERSION=%%i.%%j
+if "%OSversion%" == "6.3" goto:wrongOS
+if "%OSversion%" == "6.2" goto:wrongOS
+if "%OSversion%" == "6.1" goto:wrongOS
+if "%OSversion%" == "6.0" goto:wrongOS
+endlocal
+goto:EOF
+
+:wrongOS
+cls
+echo This operating system isn't supported...
+echo.
+echo.
+echo.
+pause
+exit
+
 :: Made by Kotsasmin
