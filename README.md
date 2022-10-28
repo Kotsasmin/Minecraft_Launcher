@@ -28,7 +28,7 @@ and Portably! If you have any questions, let me know in Discord
 
 ✔️- Open source
 
-✔️- Updatebale
+✔️- Updateable
 
 ✔️- Now with fading effect!
 
