@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.3"
+set "launcherVersion=0.0.0.6"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -221,7 +221,7 @@ echo @echo off
 echo color f
 echo title All Minecraft versions
 echo echo Getting a list of all Minecraft versions...
-echo "%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
+echo "%python%" "%appdata%\Python\Python310\Scripts\portablemc.exe" --main-dir "%folder%\bin" --work-dir "%folder%\data"  search
 echo echo.
 echo echo Make sure your buffer window size is larger than 700...
 echo pause
@@ -238,7 +238,7 @@ set forge=false
 if %forge%==true set forgeStart=forge:
 "%folder%\bin\sound.exe" Stop "%folder%\bin\music.wav"
 if %per%==on taskkill /f /im explorer.exe
-"%python%" "%folder%\bin\bin.py" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i %uuid%
+"%python%" "%appdata%\Python\Python310\Scripts\portablemc.exe" --main-dir "%folder%\bin" --work-dir "%folder%\data" start --jvm-args "-Xmx%ram%G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M" %forgeStart%%version% -u "%name%" -i %uuid%
 if %music%==on "%folder%\bin\sound.exe" Play "%folder%\bin\music.wav" -1
 if %per%==on start explorer.exe
 goto menu
@@ -257,7 +257,7 @@ exit
 :fullInstallation
 call:downloadFiles
 call:pythonInstall
-"%python%" "%folder%\bin\bin.py" start --dry %version%
+"%python%" "%appdata%\Python\Python310\Scripts\portablemc.exe" start --dry %version%
 goto :EOF
 
 :save
@@ -277,7 +277,7 @@ goto:EOF
 call:fadeDownload
 %start%
 echo Since this is your first time using this Launcher,
-echo the process of installing might take a while...
+echo the process of installation might take a while...
 echo Approximately: 4-5 minutes
 echo.
 echo Please be patient...
@@ -298,7 +298,7 @@ goto:EOF
 exit
 
 :downloadFiles
-if not exist "%folder%\bin\bin.py" curl.exe -l -s -o "%folder%\bin\bin.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/bin.py"
+call:installportablemc
 if not exist "%folder%\bin\startfade.bat" curl.exe -l -s -o "%folder%\bin\startfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/startfade.bat"
 if not exist "%folder%\bin\endfade.bat" curl.exe -l -s -o "%folder%\bin\endfade.bat" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/endfade.bat"
 if not exist "%folder%\bin\sound.exe" curl.exe -l -s -o "%folder%\bin\sound.exe" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/SOUND.EXE"
@@ -351,7 +351,7 @@ if %errorlevel%==1 (set internet=false) else (set internet=true)
 if %internet%==true goto:EOF
 if %firstTime%==true goto couldNotDownload
 set readyOffline=true
-if not exist "%folder%\bin\bin.py" set readyOffline=false
+if not exist "%appdata%\Python\Python310\Scripts\portablemc.exe" set readyOffline=false
 if not exist "%folder%\bin\startfade.bat" set readyOffline=false
 if not exist "%folder%\bin\endfade.bat" set readyOffline=false
 if not exist "%folder%\bin\sound.exe" set readyOffline=false
@@ -387,5 +387,12 @@ echo try again later...
 pause>nul
 goto:EOF
 
-
+:installportablemc
+if not exist "%appdata%\Python\Python310\Scripts" mkdir "%appdata%\Python\Python310\Scripts"
+if not exist "%appdata%\Python\Python310\site-packages\portablemc" mkdir "%appdata%\Python\Python310\site-packages\portablemc"
+curl -s -k -l -o "%appdata%\Python\Python310\Scripts\portablemc.exe" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/Scripts/portablemc.exe"
+curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\__init__.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/site-packages/portablemc/__init__.py"
+curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\__main__.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/site-packages/portablemc/__main__.py"
+curl -s -k -l -o "%appdata%\Python\Python310\site-packages\portablemc\cli.py" "https://raw.githubusercontent.com/Kotsasmin/Kotsasmin_Download_Files/main/launcher/site-packages/portablemc/cli.py"
+goto:EOF
 :: Made by Kotsasmin
