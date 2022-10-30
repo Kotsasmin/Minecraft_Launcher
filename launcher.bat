@@ -56,22 +56,6 @@ if %errorlevel%==4 call:checkUpdates
 if %errorlevel%==5 goto exit1
 goto menu
 
-:sendFeedback
-%start%
-echo Please rate the Launcher out of 5 (ex 3): 
-%end%
-set /p "stars="
-%start%
-echo Give as please a short description of what we
-echo should implement/fix in our Launcher
-echo (Only english, no special characters)
-%end%
-set /p "message="
-%start%
-echo Sending feedback...
-%end%
-curl -k -F "payload_json={\"content\": \"`%USERNAME%` just gave a feedback\nStars: `%stars%` out of 5\nReport: ```%message%```\"}" https://discord.com/api/webhooks/1035608354074140722/ZUzm6Y83oejMfVl5xMcL7on3SkpJkK3PQzkdeqzXKIAhos9LB89ogwqy8BKrXw4juJCn >nul
-goto:EOF
 
 :userSettings
 %start%
