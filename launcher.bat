@@ -4,7 +4,7 @@ mode con:cols=80 lines=25
 setlocal enabledelayedexpansion
 echo Loading...
 set "launcherName=Minecraft Launcher"
-set "launcherVersion=0.0.0.5"
+set "launcherVersion=0.0.0.51"
 title %launcherName% ^| %launcherVersion%
 set ram=1
 set version=1.16.5
@@ -46,16 +46,14 @@ echo 1) Launch Minecraft %version%
 echo 2) Account settings
 echo 3) Launcher Settings
 echo 4) Check for updates
-echo 5) Send feedback
-echo 6) Exit
+echo 5) Exit
 %end%
-choice /c 123456 /n
+choice /c 12345 /n
 if %errorlevel%==1 call:launch
 if %errorlevel%==2 call:userSettings
 if %errorlevel%==3 call:settings
 if %errorlevel%==4 call:checkUpdates
-if %errorlevel%==5 call:sendFeedback
-if %errorlevel%==6 goto exit1
+if %errorlevel%==5 goto exit1
 goto menu
 
 :sendFeedback
